@@ -36,6 +36,9 @@ def save_positions(ras, decs):
         for i in range(NSRC):
             print(f"{i:07d}, {ras[i]:12f}, {decs[i]:12f}", file=f)
 
+def clip_to_radius():
+    return
+
 def main():
     ras, decs = make_positions()
     save_positions(ras, decs)
