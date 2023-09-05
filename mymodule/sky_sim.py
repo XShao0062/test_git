@@ -7,8 +7,10 @@ import numpy as np
 
 NSRC = 1_000_000
 # from wikipedia
-RA = '00:42:44.1'
+
+RA = '00:42:44.0'
 DEC = '41:16:00'
+
 
 def make_positions():
     # convert to decimal degrees
