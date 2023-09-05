@@ -3,12 +3,12 @@
 
 from math import cos, pi
 from random import uniform
-
+import numpy as np
 
 NSRC = 1_000_000
 # from wikipedia
-RA = '00:42:44.2'
-DEC = '41:16:09'
+RA = '00:42:44.1'
+DEC = '41:16:00'
 
 def make_positions():
     # convert to decimal degrees
@@ -28,6 +28,21 @@ def make_positions():
         decs.append(dec + uniform(-1,1))
     return ras, decs
 
+def clip_to_radius(ra, decs, ref_ra, ref_dec, radius):
+
+    mask = np.where(np.hypot((ras-ref_ra), (decs-ref_dec)) <= radius)
+    cropped_ras = ras[mask]
+    cropped_decs = decs[mask]
+    return cropped_ras, cropped_decs
+
+def crop_to_circle(ras, decs, ref_ra, ref_dec, radius):
+    ra_out = []
+    dec_out = []
+    for i in range(len(ras)):
+        if (ras[i]-ref_ra)**2 + (decs[i]-ref_dec)**2 < radius**2:
+            ra_out.append(ras[i])
+            dec_out.append(ras[i])
+    return ra_out, dec_out
 
 def save_positions(ras, decs):
     # now write these to a csv file for use by my other program
