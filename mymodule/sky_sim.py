@@ -7,7 +7,7 @@ from random import uniform
 
 NSRC = 1_000_000
 # from wikipedia
-RA = '00:42:44.3'
+RA = '00:42:44.2'
 DEC = '41:16:09'
 
 def make_positions():
