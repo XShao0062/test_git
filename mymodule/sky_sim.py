@@ -129,7 +129,7 @@ def skysim_parser():
 
 def main():
     parser = skysim_parser()
-    options = parse.parse_args()
+    options = parser.parse_args()
 
      # if ra/dec are not supplied the use a default value
     if None in [options.ra, options.dec]:
