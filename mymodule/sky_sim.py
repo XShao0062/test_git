@@ -3,23 +3,35 @@
 
 from math import cos, pi
 from random import uniform
+import logging
+
+
+# configure logging
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("mylogger")
+
+# use the logger
+log.info('This is an info message')
+
 
 
 NSRC = 1_000_000
 # from wikipedia
-RA = '00:42:44.3'
-DEC = '41:16:09'
 
-def make_positions():
+RA_str = '00:42:44.0'
+DEC_str = '41:16:00'
+
+
+def get_redec():
     # convert to decimal degrees
-    d, m, s = DEC.split(':')
+    d, m, s = DEC_str.split(':')
     dec = int(d)+int(m)/60+float(s)/3600
 
-    h, m, s = RA.split(':')
+    h, m, s = RA_str.split(':')
     ra = 15*(int(h)+int(m)/60+float(s)/3600)
     ra = ra/cos(dec*pi/180)
 
-
+def make_positions(ra, dec, nsrc=NSRC)
     # make 1000 stars within 1 degree of Andromeda
     ras = []
     decs = []
@@ -28,8 +40,25 @@ def make_positions():
         decs.append(dec + uniform(-1,1))
     return ras, decs
 
+def clip_to_radius(ra, decs, ref_ra, ref_dec, radius):
+
+    mask = np.where(np.hypot((ras-ref_ra), (decs-ref_dec)) <= radius)
+    cropped_ras = ras[mask]
+    cropped_decs = decs[mask]
+    return cropped_ras, cropped_decs
+
+def crop_to_circle(ras, decs, ref_ra, ref_dec, radius):
+    ra_out = []
+    dec_out = []
+    for i in range(len(ras)):
+        if (ras[i]-ref_ra)**2 + (decs[i]-ref_dec)**2 < radius**2:
+            ra_out.append(ras[i])
+            dec_out.append(ras[i])
+    return ra_out, dec_out
+
 
 def save_positions(ras, decs):
+    log.debug(f"writing catalogue to {out}")
     # now write these to a csv file for use by my other program
     with open('catalog.csv','w', encoding='utf8') as f:
         print("id,ra,dec", file=f)
@@ -42,6 +71,7 @@ def clip_to_radius():
 def main():
     ras, decs = make_positions()
     save_positions(ras, decs)
+
 
 if __name__ =="__main__":
     main()
