@@ -22,7 +22,7 @@ RA_str = '00:42:44.0'
 DEC_str = '41:16:00'
 
 
-def get_redec():
+def get_radec():
     """
     Generate the ra/dec coordinates of Andromeda
     in decimal degrees.
