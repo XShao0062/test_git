@@ -8,19 +8,20 @@ import numpy as np
 NSRC = 1_000_000
 # from wikipedia
 
-RA = '00:42:44.0'
-DEC = '41:16:00'
+RA_str = '00:42:44.0'
+DEC_str = '41:16:00'
 
 
-def make_positions():
+def get_redec():
     # convert to decimal degrees
-    d, m, s = DEC.split(':')
+    d, m, s = DEC_str.split(':')
     dec = int(d)+int(m)/60+float(s)/3600
 
-    h, m, s = RA.split(':')
+    h, m, s = RA_str.split(':')
     ra = 15*(int(h)+int(m)/60+float(s)/3600)
     ra = ra/cos(dec*pi/180)
 
+def make_positions(ra, dec, nsrc=NSRC):
 
     # make 1000 stars within 1 degree of Andromeda
     ras = []
